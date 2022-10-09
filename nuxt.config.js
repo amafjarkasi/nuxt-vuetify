@@ -39,7 +39,13 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     'nuxt-basic-auth-module',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
   ],
+  sitemap: {
+    hostname: 'https://nuxt-test-amafjarkasi.vercel.app',
+    gzip: true,
+  },
   basic: {
     name: 'admin',
     pass: 'admin',
@@ -68,5 +74,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extend ( config, { isDev, isClient, isServer } ) {
+      if ( isServer ) {
+        config.externals = {
+          '@nuxtjs/sitemap': 'commonjs @nuxtjs/sitemap',
+        }
+      }
+    }
   }
 }
